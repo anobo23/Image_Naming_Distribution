@@ -1,6 +1,6 @@
 # version history
-# v0319    #1 file.list 에서 'ColorTemperature' 변수를 제외
-
+# 180319    #1 file.list 에서 'ColorTemperature' 변수를 제외
+# 180320-1036    # unkown tagging 된 사진은 향후 수정 할 수 있도록 별도로 저장 (Image_DB 나 renamed_image 에 않들어가도록)
 
 
 
@@ -33,11 +33,19 @@ f1 <- file.list %>% mutate(xxx = FileName) %>%
         separate(xxx, c("unit", "date", "place", "raw_file", "etc"), "-", extra = "merge", fill = "right")
 
 f2 <- f1 %>% filter(!is.na(unit)) %>%
-             filter(as.numeric(unit) < 500000 | unit == "unknown",  
+             filter(as.numeric(unit) < 500000,  
                     nchar(date) == 6, 
                     place %in% c("oproom", "adult1", "adult2", "child6", "emroom"), 
                     grepl("JPG", raw_file, ignore.case = TRUE))  %>%
                     mutate(listup_date = as.character(Sys.time()) )
+
+
+# unknown 으로 tagging 된 file을 이동
+
+uk <- f1 %>% filter(grepl("unknown|uk", FileName, ignore.case = TRUE))
+
+file.rename(uk$SourceFile, "~/Dropbox (My working)/team_folder/raw_image/unknown/")
+
 
 
 
