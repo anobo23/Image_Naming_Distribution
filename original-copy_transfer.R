@@ -17,7 +17,7 @@ library(readAny)
 rm(list = ls())
 
 
-i.path <- paste0("C:/Users/JD/Dropbox/team_folder/raw_image/temp")
+i.path <- paste0("~/Dropbox (My working)/team_folder/raw_image/temp")
 
 
 file.list <- read_exif(i.path, recursive = TRUE) %>%
@@ -44,23 +44,23 @@ f2 <- f1 %>% filter(!is.na(unit)) %>%
 
 uk <- f1 %>% filter(grepl("unknown|uk", FileName, ignore.case = TRUE))
 
-file.rename(uk$SourceFile, "~/Dropbox (My working)/team_folder/raw_image/unknown/")
+file.rename(uk$SourceFile, paste0("~/Dropbox (My working)/team_folder/raw_image/unknown/", uk$FileName))
 
 
 
 
 
 # 리스트에 추가
-old.list <- read.any("C:/Users/JD/Dropbox/team_folder/image_list/image_list.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+old.list <- read.any("~/Dropbox (My working)/team_folder/image_list/image_list.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 new.list <- rbind(f2, old.list)
-write.csv(new.list, "C:/Users/JD/Dropbox/team_folder/image_list/image_list.csv" , row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(new.list, "~/Dropbox (My working)/team_folder/image_list/image_list.csv" , row.names = FALSE, fileEncoding = "UTF-8")
 
 
 
 
 # 파일 복사 to 'renamed_image'
 flist <- list.files(i.path, full.names = TRUE)
-file.copy(f2$SourceFile, "C:/Users/JD/Dropbox/team_folder/renamed_image/" )
+file.copy(f2$SourceFile, "~/Dropbox (My working)/team_folder/renamed_image/" )
 
 
 
@@ -71,7 +71,7 @@ f2.leng <- nrow(f2)
 
 for (i in 1:f2.leng) {
         if (f2$FileName[i] %in% new.list$FileName) {
-                  new.dir <- paste0("C:/Users/JD/Dropbox/team_folder/Image_DB/", f2$unit[i])
+                  new.dir <- paste0("~/Dropbox (My working)/team_folder/Image_DB/", f2$unit[i])
                   dir.create(new.dir, showWarnings = FALSE)
                   file.rename(paste0(f2$SourceFile[i]), 
                               paste0(new.dir, "/", f2$FileName[i]))
