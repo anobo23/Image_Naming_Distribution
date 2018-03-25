@@ -1,6 +1,6 @@
 # version history
 # 180320-1238 : 생성
-
+# 180325-1849 : 하위 폴더는의 파일은 제외
 
 #install.packages("exifr")
 #install.packages("devtools")
@@ -20,7 +20,8 @@ i.path <- paste0("~/Dropbox (My working)/team_folder/raw_image/re_jd4")
 
 file.list <- read_exif(i.path, recursive = TRUE) %>%
         select(SourceFile, FileName, Directory, DateTimeOriginal, FileType) %>%
-        filter(FileType == "JPEG")
+        filter(FileType == "JPEG") %>%
+        filter(!grepl("temp|uk", Directory))
 
 temp <- file.list
 
@@ -85,5 +86,5 @@ for (i in 1:list.leng) {
         
 }
 
-b
+
 
